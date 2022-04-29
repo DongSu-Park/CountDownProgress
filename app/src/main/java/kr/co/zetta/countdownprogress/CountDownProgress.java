@@ -6,17 +6,20 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 public class CountDownProgress extends RelativeLayout {
     private final int STATE_IDLE = 0;
@@ -78,36 +81,49 @@ public class CountDownProgress extends RelativeLayout {
 
     /** set custom view value by attr value */
     private void setTypeArray(TypedArray typedArray) {
-        // set progress width, height setting
-        int progressWidth = typedArray.getInt(R.styleable.CountDownProgressLayout_progressWidth, 200);
-        int progressHeight = typedArray.getInt(R.styleable.CountDownProgressLayout_progressHeight, 50);
-        ViewGroup.LayoutParams progressParams = mProgressBar.getLayoutParams();
-        progressParams.width = convertDpToPx(progressWidth);
-        progressParams.height = convertDpToPx(progressHeight);
-        mProgressBar.setLayoutParams(progressParams);
-
-        // set progress custom drawable
-        int progressCustomDrawable = typedArray.getResourceId(R.styleable.CountDownProgressLayout_progressDrawableCustom, R.drawable.progress);
+        // set progress custom drawable (If not set, set default drawable)
+        int progressCustomDrawable = typedArray.getResourceId(R.styleable.CountDownProgressLayout_progressDrawableCustom, R.drawable.progress_default);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             mProgressBar.setProgressDrawable(getResources().getDrawable(progressCustomDrawable, null));
         } else {
             mProgressBar.setProgressDrawable(getResources().getDrawable(progressCustomDrawable));
         }
 
-        // set progress color tint, tintBackground
-        int progressColorTint = typedArray.getColor(R.styleable.CountDownProgressLayout_progressColorTint, Color.parseColor("#8A3CC4"));
-        int progressColorTintBg = typedArray.getColor(R.styleable.CountDownProgressLayout_progressColorTintBg, Color.parseColor("#FFFFFF"));
+        // set progress color tint, tintBackground (only default drawable)
+        if (progressCustomDrawable == R.drawable.progress_default){
+            int progressColorTint = typedArray.getColor(R.styleable.CountDownProgressLayout_progressColorTint, Color.parseColor("#8A3CC4"));
+            int progressColorTintBg = typedArray.getColor(R.styleable.CountDownProgressLayout_progressColorTintBg, Color.parseColor("#FFFFFF"));
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-            mProgressBar.setProgressTintList(ColorStateList.valueOf(progressColorTint));
-            mProgressBar.setProgressBackgroundTintList(ColorStateList.valueOf(progressColorTintBg));
-        } else {
-            LayerDrawable progressBarDrawable = (LayerDrawable) mProgressBar.getProgressDrawable();
-            Drawable bgDrawable = progressBarDrawable.getDrawable(0);
-            Drawable tintDrawable = progressBarDrawable.getDrawable(1);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+                mProgressBar.setProgressTintList(ColorStateList.valueOf(progressColorTint));
+                mProgressBar.setProgressBackgroundTintList(ColorStateList.valueOf(progressColorTintBg));
+            } else {
+                LayerDrawable progressBarDrawable = (LayerDrawable) mProgressBar.getProgressDrawable();
+                Drawable bgDrawable = progressBarDrawable.getDrawable(0);
+                Drawable tintDrawable = progressBarDrawable.getDrawable(1);
 
-            bgDrawable.setColorFilter(progressColorTintBg, PorterDuff.Mode.SRC_IN);
-            tintDrawable.setColorFilter(progressColorTint,  PorterDuff.Mode.SRC_IN);
+                bgDrawable.setColorFilter(progressColorTintBg, PorterDuff.Mode.SRC_IN);
+                tintDrawable.setColorFilter(progressColorTint,  PorterDuff.Mode.SRC_IN);
+            }
+        }
+
+        // set progress radius value (only default drawable)
+        if (progressCustomDrawable == R.drawable.progress_default){
+            float progressRadius = typedArray.getFloat(R.styleable.CountDownProgressLayout_progressRadius, 8.0f);
+
+            LayerDrawable drawable = (LayerDrawable) mProgressBar.getProgressDrawable();
+            GradientDrawable bgDrawable = (GradientDrawable) drawable.getDrawable(0);
+            bgDrawable.setCornerRadius(progressRadius);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                GradientDrawable tintDrawable = (GradientDrawable) ((ClipDrawable) drawable.getDrawable(1)).getDrawable();
+                tintDrawable.setCornerRadius(progressRadius);
+            } else {
+                GradientDrawable tintDrawableApi23 = (GradientDrawable) ContextCompat.getDrawable(getContext(), R.drawable.progress_tint);
+                tintDrawableApi23.setCornerRadius(progressRadius);
+            }
+
+            mProgressBar.setProgressDrawable(drawable);
         }
 
         // set progress inside text, textSize, textColor
@@ -388,11 +404,5 @@ public class CountDownProgress extends RelativeLayout {
         mRunningTime = 0;
 
         mCntState = STATE_IDLE;
-    }
-
-    /** convert dp to px */
-    private int convertDpToPx(int dp){
-        float density = getContext().getResources().getDisplayMetrics().density;
-        return Math.round((float) dp * density);
     }
 }

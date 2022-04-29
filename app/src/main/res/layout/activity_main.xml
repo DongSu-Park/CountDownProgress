@@ -11,18 +11,15 @@
 
     <kr.co.zetta.countdownprogress.CountDownProgress
         android:id="@+id/layout_custom_countdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
-        app:progressWidth="200"
-        app:progressHeight="50"
-        app:progressDrawableCustom="@drawable/progress"
         app:progressColorTint="@color/foreground_progress_color"
         app:progressColorTintBg="@color/background_progress_color"
+        app:progressRadius="0"
         app:progressText=""
         app:progressTextSize="20"
         app:progressTextColor="@color/black"/>
-
 
     <LinearLayout
         android:layout_width="wrap_content"

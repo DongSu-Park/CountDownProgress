@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-       progressWidth = 프로그래스 레이아웃 가로 영역
-       progressHeight = 프로그래스 레이아웃 세로 영역
-       progressColorTint = 프로그래스 레이아웃 진행 막대 색상 값
-       progressColorTintBg = 프로그래스 레이아웃 배경 색상 값
-       progressCustomDrawable = 프로그래스 레이아웃 Drawable style 지정 (레퍼런스 타입만 가능)
-       progressText = 프로그래스 가운데 텍스트 내용
-       progressTextSize = 프로그래스 가운데 텍스트 사이즈
-       progressTextColor = 프로그래스 가운데 택스트 컬러 값
+       progressCustomDrawable = 프로그래스바 레이아웃 Drawable style 지정 (레퍼런스 타입만 가능, 지정을 안하면 default로 설정)
+       progressColorTint = 프로그래스바 레이아웃 진행 막대 색상 값 (default style 경우에만 설정 가능)
+       progressColorTintBg = 프로그래스바 레이아웃 배경 색상 (default style 경우에만 설정 가능)
+       progressRadius = 프로그래스바 곡선 값 (default style 경우에만 설정 가능)
+       progressText = 프로그래스바 가운데 텍스트 내용
+       progressTextSize = 프로그래스바 가운데 텍스트 사이즈
+       progressTextColor = 프로그래스바 가운데 택스트 컬러 값
        -->
 
     <declare-styleable name="CountDownProgressLayout">
-        <attr name="progressWidth" format="reference|integer"/>
-        <attr name="progressHeight" format="reference|integer"/>
+        <attr name="progressDrawableCustom" format="reference"/>
         <attr name="progressColorTintBg" format="reference|integer"/>
         <attr name="progressColorTint" format="reference|integer"/>
-        <attr name="progressDrawableCustom" format="reference"/>
+        <attr name="progressRadius" format="reference|float"/>
         <attr name="progressText" format="reference|string"/>
         <attr name="progressTextSize" format="reference|integer"/>
         <attr name="progressTextColor" format="reference|integer"/>
