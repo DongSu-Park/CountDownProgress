@@ -12,11 +12,11 @@
 
     <declare-styleable name="CountDownProgressLayout">
         <attr name="progressDrawableCustom" format="reference"/>
-        <attr name="progressColorTintBg" format="reference|integer"/>
-        <attr name="progressColorTint" format="reference|integer"/>
+        <attr name="progressColorTintBg" format="reference|color"/>
+        <attr name="progressColorTint" format="reference|color"/>
         <attr name="progressRadius" format="reference|float"/>
         <attr name="progressText" format="reference|string"/>
         <attr name="progressTextSize" format="reference|integer"/>
-        <attr name="progressTextColor" format="reference|integer"/>
+        <attr name="progressTextColor" format="reference|color"/>
     </declare-styleable>
 </resources>
