@@ -344,7 +344,7 @@ public class CountDownProgress extends RelativeLayout {
             mCountDownTimer = null;
 
             int currentPos = mProgressBar.getProgress();
-            double currentPercent = currentPos / (mProgressBar.getMax() * 0.01);
+            double currentPercent = Math.round(currentPos / (mProgressBar.getMax() * 0.01)) / 100.0;
 
             mListener.onPause(mRunningTime, mRemainTime, currentPos, currentPercent);
             mCntState = STATE_PAUSE;
@@ -418,16 +418,16 @@ public class CountDownProgress extends RelativeLayout {
     }
 
     /** countdown timer restart (before pause) */
-    public void onRestart(long remainTime, int cntProgress){
+    public void onRestart(long remainTime, int startPos){
         if (mCntState == STATE_PAUSE){
-            mProgressBar.setProgress(cntProgress);
+            mProgressBar.setProgress(startPos);
             mCountDownTimer = new CountDownTimer(remainTime, 16) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     mRemainTime = millisUntilFinished;
                     mRunningTime = (int) (totalTime - remainTime) - millisUntilFinished;
 
-                    mProgressBar.setProgress((int) (cntProgress + (remainTime - millisUntilFinished) / 16));
+                    mProgressBar.setProgress((int) (startPos + (remainTime - millisUntilFinished) / 16));
                 }
 
                 @Override
