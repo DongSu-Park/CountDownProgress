@@ -9,28 +9,28 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <kr.co.zetta.countdownprogress.CountDownProgress
+<!--    <kr.co.zetta.countdownprogress.CountDownProgress-->
+<!--        android:id="@+id/layout_custom_countdown"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        app:progressColorTint="#77da8a"-->
+<!--        app:progressColorTintBg="@color/background_progress_color"-->
+<!--        app:progressRadius="0"-->
+<!--        app:progressText="test message"-->
+<!--        app:progressTextSize="16"-->
+<!--        app:progressTextColor="#000000">-->
+<!--    </kr.co.zetta.countdownprogress.CountDownProgress>-->
+
+    <kr.co.zetta.countdownprogresslib.CountDownProgress
         android:id="@+id/layout_custom_countdown"
         android:layout_width="300dp"
         android:layout_height="50dp"
         app:progressColorTint="#77da8a"
         app:progressColorTintBg="@color/background_progress_color"
-        app:progressRadius="0"
+        app:progressRadius="8"
         app:progressText="test message"
         app:progressTextSize="16"
-        app:progressTextColor="#000000">
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="dfssfdfds"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:gravity="center"/>-->
-
-    </kr.co.zetta.countdownprogress.CountDownProgress>
+        app:progressTextColor="#000000"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

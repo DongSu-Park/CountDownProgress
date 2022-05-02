@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private CountDownProgress mCountDownProgress;
+    private kr.co.zetta.countdownprogresslib.CountDownProgress mCountDownProgress;
     private Button mStart, mCancel, mPause, mRestart;
 
     private long mRemainTime = 0;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mCountDownProgress = (CountDownProgress) findViewById(R.id.layout_custom_countdown);
+        mCountDownProgress = (kr.co.zetta.countdownprogresslib.CountDownProgress) findViewById(R.id.layout_custom_countdown);
         mStart = (Button) findViewById(R.id.btn_start);
         mCancel = (Button) findViewById(R.id.btn_cancel);
         mPause = (Button) findViewById(R.id.btn_pause);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         mCountDownProgress.setProgressText("다음 회 보기");
 
-        mCountDownProgress.setOnCountDownFinishEvent(new CountDownProgress.CountDownFinishListener() {
+        mCountDownProgress.setOnCountDownFinishEvent(new kr.co.zetta.countdownprogresslib.CountDownProgress.CountDownFinishListener() {
             @Override
             public void onFinished() {
                 Toast.makeText(MainActivity.this, "카운트 다운 종료!!", Toast.LENGTH_LONG).show();
