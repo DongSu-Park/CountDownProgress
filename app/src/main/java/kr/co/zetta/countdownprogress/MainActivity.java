@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPause(long runningTime, long remainTime, int currentPos, double currentPercent) {
+            public void onPaused(long runningTime, long remainTime, int currentPos, double currentPercent) {
                 Toast.makeText(MainActivity.this, "카운트 다운 일시정지!!", Toast.LENGTH_LONG).show();
                 mRemainTime = remainTime;
                 cntProgress = currentPos;

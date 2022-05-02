@@ -221,7 +221,7 @@ public class CountDownProgress extends RelativeLayout {
     /** countdown finish interface */
     public interface CountDownFinishListener {
         void onFinished();
-        void onPause(long runningTime, long remainTime, int currentPos, double currentPercent);
+        void onPaused(long runningTime, long remainTime, int currentPos, double currentPercent);
     }
 
     /** countdown finish listener event */
@@ -346,7 +346,7 @@ public class CountDownProgress extends RelativeLayout {
             int currentPos = mProgressBar.getProgress();
             double currentPercent = Math.round(currentPos / (mProgressBar.getMax() * 0.01)) / 100.0;
 
-            mListener.onPause(mRunningTime, mRemainTime, currentPos, currentPercent);
+            mListener.onPaused(mRunningTime, mRemainTime, currentPos, currentPercent);
             mCntState = STATE_PAUSE;
         }
     }
