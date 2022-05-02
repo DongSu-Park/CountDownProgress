@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         mRestart = (Button) findViewById(R.id.btn_restart);
         mSkip = (Button) findViewById(R.id.btn_skip);
 
-        mCountDownProgress.setProgressColorTint("#eb34bd");
-        mCountDownProgress.setProgressColorTintBg("#91898f");
-        mCountDownProgress.setProgressRadius(80.0f);
         mCountDownProgress.setProgressText("다음 회 보기");
 
         mCountDownProgress.setOnCountDownFinishEvent(new kr.co.zetta.countdownprogresslib.CountDownProgress.CountDownFinishListener() {

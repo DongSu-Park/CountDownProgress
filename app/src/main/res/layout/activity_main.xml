@@ -25,6 +25,9 @@
         android:id="@+id/layout_custom_countdown"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        app:progressColorTint="#77da8a"
+        app:progressColorTintBg="@color/background_progress_color"
+        app:progressRadius="8"
         app:progressText="test message"
         app:progressTextSize="16"
         app:progressTextColor="#000000"/>

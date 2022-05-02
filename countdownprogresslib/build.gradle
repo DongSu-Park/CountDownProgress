@@ -11,7 +11,7 @@ afterEvaluate {
                 from components.release
 
                 groupId = 'kr.co.zetta.countdownprogresslib'
-                version = '0.0.1-alpha'
+                version = '0.0.2-alpha'
             }
 
             // debug
@@ -19,7 +19,7 @@ afterEvaluate {
                 from components.debug
 
                 groupId = 'kr.co.zetta.countdownproresslib'
-                version = '0.0.1-alpha'
+                version = '0.0.2-alpha'
             }
         }
     }
