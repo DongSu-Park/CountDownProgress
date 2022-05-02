@@ -16,7 +16,6 @@ CountDown Progressbar 커스텀 뷰를 제작하였습니다.
 - complie Sdk Version : 30
 - minSdk Version : 19 (kitkat)
 - recommand Sdk Version : 23 (Mashmellow) 또는 그 이상
-- 현재 라이브러리 버전 : 0.0.1-alpha
 
 ```java
 repositories {
