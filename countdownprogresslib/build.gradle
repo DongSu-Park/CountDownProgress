@@ -12,7 +12,7 @@ afterEvaluate {
 
                 groupId = 'kr.co.zetta.countdownprogresslib'
                 artifactId = 'alpha'
-                version = '0.0.1'
+                version = '0.0.1-alpha'
             }
 
             // debug
@@ -21,7 +21,7 @@ afterEvaluate {
 
                 groupId = 'kr.co.zetta.countdownproresslib'
                 artifactId = 'alpha-debug'
-                version = '0.0.1'
+                version = '0.0.1-alpha'
             }
         }
     }
