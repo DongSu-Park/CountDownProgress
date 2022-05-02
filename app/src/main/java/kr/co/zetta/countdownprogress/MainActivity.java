@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private kr.co.zetta.countdownprogresslib.CountDownProgress mCountDownProgress;
-    private Button mStart, mCancel, mPause, mRestart;
+    private Button mStart, mCancel, mPause, mRestart, mSkip;
 
     private long mRemainTime = 0;
     private int cntProgress = 0;
@@ -29,7 +29,11 @@ public class MainActivity extends AppCompatActivity {
         mCancel = (Button) findViewById(R.id.btn_cancel);
         mPause = (Button) findViewById(R.id.btn_pause);
         mRestart = (Button) findViewById(R.id.btn_restart);
+        mSkip = (Button) findViewById(R.id.btn_skip);
 
+        mCountDownProgress.setProgressColorTint("#eb34bd");
+        mCountDownProgress.setProgressColorTintBg("#91898f");
+        mCountDownProgress.setProgressRadius(80.0f);
         mCountDownProgress.setProgressText("다음 회 보기");
 
         mCountDownProgress.setOnCountDownFinishEvent(new kr.co.zetta.countdownprogresslib.CountDownProgress.CountDownFinishListener() {
@@ -74,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCountDownProgress.onRestart(mRemainTime);
+            }
+        });
+
+        mSkip.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mCountDownProgress.onSkip();
             }
         });
     }

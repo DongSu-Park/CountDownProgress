@@ -27,6 +27,8 @@ public class CountDownProgress extends RelativeLayout {
     private final int STATE_PAUSE = 2;
     private final int STATE_RESTART = 3;
 
+    private int progressCustomDrawable;
+
     private int mCntState = 0; // current countdown state
 
     private ProgressBar mProgressBar;
@@ -82,7 +84,8 @@ public class CountDownProgress extends RelativeLayout {
     /** set custom view value by attr value */
     private void setTypeArray(TypedArray typedArray) {
         // set progress custom drawable (If not set, set default drawable)
-        int progressCustomDrawable = typedArray.getResourceId(R.styleable.CountDownProgressLayout_progressDrawableCustom, R.drawable.progress_default);
+        progressCustomDrawable = typedArray.getResourceId(R.styleable.CountDownProgressLayout_progressDrawableCustom, R.drawable.progress_default);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             mProgressBar.setProgressDrawable(getResources().getDrawable(progressCustomDrawable, null));
         } else {
@@ -136,6 +139,59 @@ public class CountDownProgress extends RelativeLayout {
 
         // typedArray recycle
         typedArray.recycle();
+    }
+
+    /** programmatically ProgressBar Tint Background (only default drawable) */
+    public void setProgressColorTintBg(String colorValue){
+        if (colorValue != null){
+            if (progressCustomDrawable == R.drawable.progress_default){
+                int colorParse = Color.parseColor(colorValue);
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+                    mProgressBar.setProgressBackgroundTintList(ColorStateList.valueOf(colorParse));
+                } else {
+                    LayerDrawable progressBarDrawable = (LayerDrawable) mProgressBar.getProgressDrawable();
+                    Drawable bgDrawable = progressBarDrawable.getDrawable(0);
+                    bgDrawable.setColorFilter(colorParse, PorterDuff.Mode.SRC_IN);
+                }
+            }
+        }
+    }
+
+    /** programmatically ProgressBar Tint (only default drawable) */
+    public void setProgressColorTint(String colorValue){
+        if (colorValue != null){
+            if (progressCustomDrawable == R.drawable.progress_default){
+                int colorParse = Color.parseColor(colorValue);
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+                    mProgressBar.setProgressTintList(ColorStateList.valueOf(colorParse));
+                } else {
+                    LayerDrawable progressBarDrawable = (LayerDrawable) mProgressBar.getProgressDrawable();
+                    Drawable tintDrawable = progressBarDrawable.getDrawable(1);
+                    tintDrawable.setColorFilter(colorParse, PorterDuff.Mode.SRC_IN);
+                }
+            }
+        }
+    }
+
+    /** programmatically ProgressBar Tint (only default drawable) */
+    public void setProgressRadius(float radius){
+        if (progressCustomDrawable == R.drawable.progress_default){
+            LayerDrawable drawable = (LayerDrawable) mProgressBar.getProgressDrawable();
+            GradientDrawable bgDrawable = (GradientDrawable) drawable.getDrawable(0);
+            bgDrawable.setCornerRadius(radius);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                GradientDrawable tintDrawable = (GradientDrawable) ((ClipDrawable) drawable.getDrawable(1)).getDrawable();
+                tintDrawable.setCornerRadius(radius);
+            } else {
+                GradientDrawable tintDrawableApi23 = (GradientDrawable) ContextCompat.getDrawable(getContext(), R.drawable.progress_tint);
+                tintDrawableApi23.setCornerRadius(radius);
+            }
+
+            mProgressBar.setProgressDrawable(drawable);
+        }
     }
 
     /** programmatically TextView set text */
@@ -404,5 +460,28 @@ public class CountDownProgress extends RelativeLayout {
         mRunningTime = 0;
 
         mCntState = STATE_IDLE;
+    }
+
+    /** countdown timer finish */
+    public void onSkip(){
+        if (mCntState == STATE_START || mCntState == STATE_RESTART){
+            mCountDownTimer.cancel();
+            mCountDownTimer.onFinish();
+        }
+    }
+
+    /** countdown timer release */
+    public void onRelease(){
+        if (mCntState == STATE_START || mCntState == STATE_RESTART){
+            mCountDownTimer.cancel();
+        }
+
+        mProgressBar.setProgress(0);
+        mRemainTime = 0;
+        mRunningTime = 0;
+
+        mCntState = STATE_IDLE;
+
+        mCountDownTimer = null;
     }
 }
