@@ -272,7 +272,7 @@ public class CountDownProgress extends RelativeLayout {
         mTotalTime = time;
 
         mProgressBar.setMax((int) mTotalTime / 10);
-        mCountDownTimer = new CountDownTimer(time,10) {
+        mCountDownTimer = new CountDownTimer(mTotalTime,10) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mRemainTime = millisUntilFinished;
