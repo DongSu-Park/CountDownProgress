@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
 	....
-	implementation 'com.github.DongSu-Park:CountDownProgress:0.0.2-alpha'
+	implementation 'com.github.DongSu-Park:CountDownProgress:0.0.3-alpha'
 }
 ```
 
@@ -204,7 +204,7 @@ dependencies {
             }
             
             @Override
-            public void onPaused(long runningTime, long remainTime, int currentPos, double currentPercent){
+            public void onPaused(long runningTime, long remainTime){
               // 카운트다운이 중간에 멈춘 경우 이벤트가 발생됩니다. 필요시 반환되는 값을 활용해주세요.
             }
           });
@@ -216,15 +216,14 @@ dependencies {
             사용자가 지정한 카운트다운 시간이 종료된 이후 발생하는 리스너입니다.  
             해당 메서드 내에 카운트 다운이 끝난 이후 작동할 로직을 넣어주세요
             
-        - onPaused(long runningTime, long remainTime, int currentPos, double currentPercent)
+        - onPaused(long runningTime, long remainTime)
             
             사용자가 지정한 카운트다운 진행 중에 멈춘경우 (onPause() 메서드를 선언한 경우 작동) 발생하는 리스너 입니다.  
             해당 메서드 내에서 카운트 다운이 멈춘 이후 작동할 로직을 넣어주세요
             
-            - long runningTime - 카운트다운이 멈췄던 시간을 반환합니다.
+            - long runningTime - 카운트다운이 멈추고 지나간 시간을 반환합니다.
             - long remainTime - 카운트다운이 멈추고 남은 시간을 반환합니다.
-            - int currentPos - 카운트다운이 멈추고 ProgressBar의 현재 progress 위치 값을 반환합니다.
-            - double currrentPercent - 카운트다운이 멈추고 ProgressBar가 진행한 현재 퍼센트를 반환합니다.
+            
     - 카운트다운 실행 메서드
         - onStart()
             
@@ -234,49 +233,43 @@ dependencies {
             
             사용자가 지정한 시간으로 프로그래스바의 카운트다운을 시작합니다.
             
-        - onStartWithStartPos(long time, double startPos)
+        - onStart(long runningTime, long remainTime)
             
-            프로그래스바의 진행 위치를 지정 후 해당 위치에서 사용자가 지정한 시간으로 프로그래스바의 카운트다운을 시작합니다.  
-            예를 들어 20%가 진행된 상태에서 10초를 진행하려면 다음과 같습니다.
+            프로그래스바의 진행시간과 남은시간을 지정하여 카운트다운을 시작합니다.  
+            예를 들어 10초의 전체 시간 중 8초는 이미 지나갔으며 나머지 2초를 카운트다운을 처리하려면 다음과 같습니다.
             
             ```java
-            mCountDownProgress.onStartWithStartPos(10000, 0.2); // double 인스턴스 값은 (0.0 ~ 1.0 까지 지정가능)
+            mCountDownProgress.onStart(8000, 2000);
             ```
             
     - 카운트다운 일시정지 메서드
         - onPause()
             
             프로그래스바의 카운트다운을 일시정지 합니다.  
-            프로그래스바가 시작 중이거나, 재시작 한 경우만 작동합니다. (onStart, onRestart)  
-            일시정지 이후 리스너에서 현재 진행시간, 남은시간 등의 값을 반환받습니다.
+            일시정지 이후 리스너에서 현재 진행시간, 남은시간 값을 반환받습니다.  
+	    프로그래스바가 이전에 시작 또는 재시작을 호출한 경우에 작동합니다. (onStart, onRestart)  
             
     - 카운트다운 재시작
         - onRestart()
             
             프로그래스바의 카운트다운을 일시정지한 시점에서 재시작 합니다. 
-            이전에 일시정지 한 경우만 작동합니다. (onPause)
+            프로그래스바가 이전에 일시정지를 호출한 경우만 작동합니다. (onPause)
             
         - onRestart(long remainTime)
             
             프로그래스바의 카운트다운을 사용자가 지정한 남은 시간에 맞게 재시작합니다. 
-            이전에 일시정지 한 경우만 작동합니다. (onPause)
-            
-        - onRestart(long remainTime, int startPos)
-            
-            프로그래스바의 카운트다운을 사용자가 지정한 남은 시간과, Progress bar의 진행 위치를 지정해 재시작합니다.  
-            리스너의 onPaused의 반환 값인 int currentPos 와 대응합니다.  
-            이전에 일시정지 한 경우만 작동합니다. (onPause)
+            프로그래스바가 이전에 일시정지를 호출한 경우에 작동합니다. (onPause)
             
     - 카운트다운 취소, 스킵
         - onCancel()
             
             프로그래스바의 카운트다운을 진행 중에 취소합니다. 이후 시작 값은 초기화가 됩니다.  
-            이전에 시작 또는 재시작 한 경우만 작동합니다. (onstart, onRestart)
+            프로그래스바가 이전에 시작 또는 재시작을 호출한 경우에 작동합니다. (onstart, onRestart)
             
         - onSkip()
             
             프로그래스바 진행 중 남은 시간을 무시하고 카운트다운을 종료시킵니다. 이후 리스너에서 onFinished()의 이벤트를 받습니다.  
-            이전에 시작 또는 재시작 한 경우만 작동합니다. (onstart, onRestart)
+            프로그래스바가 이전에 시작 또는 재시작을 호출한 경우에 작동합니다. (onstart, onRestart)
             
     - 카운트다운 release
         - onRelease()
