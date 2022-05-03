@@ -12,8 +12,8 @@ public class MainActivity extends AppCompatActivity {
     private kr.co.zetta.countdownprogresslib.CountDownProgress mCountDownProgress;
     private Button mStart, mCancel, mPause, mRestart, mSkip;
 
+    private long mRunningTime = 0;
     private long mRemainTime = 0;
-    private int cntProgress = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,24 +36,23 @@ public class MainActivity extends AppCompatActivity {
         mCountDownProgress.setOnCountDownFinishEvent(new kr.co.zetta.countdownprogresslib.CountDownProgress.CountDownFinishListener() {
             @Override
             public void onFinished() {
-                Toast.makeText(MainActivity.this, "카운트 다운 종료!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "카운트 다운 종료!!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onPaused(long runningTime, long remainTime, int currentPos, double currentPercent) {
-                Toast.makeText(MainActivity.this, "카운트 다운 일시정지!!", Toast.LENGTH_LONG).show();
+            public void onPaused(long runningTime, long remainTime) {
+                Toast.makeText(MainActivity.this, "카운트 다운 일시정지!!", Toast.LENGTH_SHORT).show();
+                mRunningTime = runningTime;
                 mRemainTime = remainTime;
-                cntProgress = currentPos;
 
-                Log.e("test", "[countdown pause] runningTime = " + runningTime + " / remainTime = " + remainTime
-                        + " / Progress Pos = " + currentPos + " / Progress loading Percent = " + currentPercent);
+                Log.e("test", "[countdown pause] runningTime = " + runningTime + " / remainTime = " + remainTime);
             }
         });
 
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCountDownProgress.onStart(10000);
+                mCountDownProgress.onStart();
             }
         });
 

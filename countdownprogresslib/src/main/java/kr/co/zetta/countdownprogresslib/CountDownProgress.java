@@ -13,6 +13,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -37,7 +38,7 @@ public class CountDownProgress extends RelativeLayout {
     private CountDownTimer mCountDownTimer;
     private CountDownFinishListener mListener;
 
-    private long totalTime = 10000L;
+    private long mTotalTime = 10000L;
     private long mRunningTime = 0L;
     private long mRemainTime = 0L;
 
@@ -221,7 +222,7 @@ public class CountDownProgress extends RelativeLayout {
     /** countdown finish interface */
     public interface CountDownFinishListener {
         void onFinished();
-        void onPaused(long runningTime, long remainTime, int currentPos, double currentPercent);
+        void onPaused(long runningTime, long remainTime);
     }
 
     /** countdown finish listener event */
@@ -235,14 +236,14 @@ public class CountDownProgress extends RelativeLayout {
             onCancel();
         }
 
-        mProgressBar.setMax((int) 10000 / 16);
-        mCountDownTimer = new CountDownTimer(10000, 16) {
+        mProgressBar.setMax((int) 10000 / 10);
+        mCountDownTimer = new CountDownTimer(10000, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mRemainTime = millisUntilFinished;
-                mRunningTime = (int) (10000 - millisUntilFinished);
+                mRunningTime = 10000 - millisUntilFinished;
 
-                mProgressBar.setProgress((int) ((10000 - millisUntilFinished) / 16));
+                mProgressBar.setProgress((int) (mRunningTime / 10));
             }
 
             @Override
@@ -268,16 +269,16 @@ public class CountDownProgress extends RelativeLayout {
             onCancel();
         }
 
-        totalTime = time;
+        mTotalTime = time;
 
-        mProgressBar.setMax((int) time / 16);
-        mCountDownTimer = new CountDownTimer(time,16) {
+        mProgressBar.setMax((int) mTotalTime / 10);
+        mCountDownTimer = new CountDownTimer(time,10) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mRemainTime = millisUntilFinished;
-                mRunningTime = (int) (time - millisUntilFinished);
+                mRunningTime = mTotalTime - millisUntilFinished;
 
-                mProgressBar.setProgress((int) ((time - millisUntilFinished) / 16));
+                mProgressBar.setProgress((int) mRunningTime / 10);
             }
 
             @Override
@@ -297,27 +298,26 @@ public class CountDownProgress extends RelativeLayout {
         mCntState = STATE_START;
     }
 
-    /** countdown start with start progress position value */
-    public void onStartWithStartPos(long time, double startPos){
+    /** countdown start (param runningTime, remainTime) */
+    public void onStart(long runningTime, long remainTime){
         if (mCntState == STATE_START || mCntState == STATE_RESTART){
             onCancel();
         }
 
-        totalTime = time;
+        mTotalTime = runningTime + remainTime;
+        mRunningTime = runningTime;
+        mRemainTime = remainTime;
 
-        int timeMax = ((int) time / 16);
-        int startPercent = (int) (timeMax * startPos);
-        mProgressBar.setMax(startPercent + timeMax);
-        mProgressBar.setProgress(startPercent);
+        mProgressBar.setMax((int) mTotalTime / 10);
+        mProgressBar.setProgress((int) runningTime / 10);
 
-        mCountDownTimer = new CountDownTimer(time , 16) {
+        mCountDownTimer = new CountDownTimer(mRemainTime, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mRemainTime = millisUntilFinished;
-                mRunningTime = (int) (time - millisUntilFinished);
+                mRunningTime = mTotalTime - millisUntilFinished;
 
-                int count = startPercent + (int) ((time - millisUntilFinished) / 16);
-                mProgressBar.setProgress(count);
+                mProgressBar.setProgress((int) mRunningTime / 10);
             }
 
             @Override
@@ -343,10 +343,7 @@ public class CountDownProgress extends RelativeLayout {
             mCountDownTimer.cancel();
             mCountDownTimer = null;
 
-            int currentPos = mProgressBar.getProgress();
-            double currentPercent = Math.round(currentPos / (mProgressBar.getMax() * 0.01)) / 100.0;
-
-            mListener.onPaused(mRunningTime, mRemainTime, currentPos, currentPercent);
+            mListener.onPaused(mRunningTime, mRemainTime);
             mCntState = STATE_PAUSE;
         }
     }
@@ -354,16 +351,13 @@ public class CountDownProgress extends RelativeLayout {
     /** countdown timer restart (before pause) */
     public void onRestart(){
         if (mCntState == STATE_PAUSE && mRemainTime != 0){
-            int currentProgress = mProgressBar.getProgress();
-            long currentRemainTime = mRemainTime;
-
-            mCountDownTimer = new CountDownTimer(currentRemainTime, 16) {
+            mCountDownTimer = new CountDownTimer(mRemainTime, 10) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     mRemainTime = millisUntilFinished;
-                    mRunningTime = totalTime - millisUntilFinished;
+                    mRunningTime = mTotalTime - millisUntilFinished;
 
-                    mProgressBar.setProgress((int) (currentProgress + (currentRemainTime - millisUntilFinished) / 16));
+                    mProgressBar.setProgress((int) mRunningTime / 10);
                 }
 
                 @Override
@@ -387,47 +381,15 @@ public class CountDownProgress extends RelativeLayout {
     /** countdown timer restart (before pause) */
     public void onRestart(long remainTime){
         if (mCntState == STATE_PAUSE){
-            int currentProgress = mProgressBar.getProgress();
             mRemainTime = remainTime;
 
-            mCountDownTimer = new CountDownTimer(remainTime, 16) {
+            mCountDownTimer = new CountDownTimer(mRemainTime, 10) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     mRemainTime = millisUntilFinished;
-                    mRunningTime = (int) totalTime - millisUntilFinished;
+                    mRunningTime = mTotalTime - millisUntilFinished;
 
-                    mProgressBar.setProgress((int) (currentProgress + (remainTime - millisUntilFinished) / 16));
-                }
-
-                @Override
-                public void onFinish() {
-                    mListener.onFinished();
-
-                    mProgressBar.setProgress(0);
-                    mRemainTime = 0;
-                    mRunningTime = 0;
-
-                    mCountDownTimer = null;
-                    mCntState = STATE_IDLE;
-                }
-            };
-
-            mCountDownTimer.start();
-            mCntState = STATE_RESTART;
-        }
-    }
-
-    /** countdown timer restart (before pause) */
-    public void onRestart(long remainTime, int startPos){
-        if (mCntState == STATE_PAUSE){
-            mProgressBar.setProgress(startPos);
-            mCountDownTimer = new CountDownTimer(remainTime, 16) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    mRemainTime = millisUntilFinished;
-                    mRunningTime = (int) (totalTime - remainTime) - millisUntilFinished;
-
-                    mProgressBar.setProgress((int) (startPos + (remainTime - millisUntilFinished) / 16));
+                    mProgressBar.setProgress((int) mRunningTime / 10);
                 }
 
                 @Override
