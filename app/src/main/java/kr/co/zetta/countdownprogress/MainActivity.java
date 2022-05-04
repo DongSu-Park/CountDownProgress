@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import kr.co.zetta.countdownprogresslib.CountDownProgress;
+
 public class MainActivity extends AppCompatActivity {
-    private kr.co.zetta.countdownprogresslib.CountDownProgress mCountDownProgress;
+    private CountDownProgress mCountDownProgress;
     private Button mStart, mCancel, mPause, mRestart, mSkip;
 
     private long mRunningTime = 0;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mCountDownProgress = (kr.co.zetta.countdownprogresslib.CountDownProgress) findViewById(R.id.layout_custom_countdown);
+        mCountDownProgress = (CountDownProgress) findViewById(R.id.layout_custom_countdown);
         mStart = (Button) findViewById(R.id.btn_start);
         mCancel = (Button) findViewById(R.id.btn_cancel);
         mPause = (Button) findViewById(R.id.btn_pause);
@@ -88,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mCountDownProgress.onRestart();
+//        mCountDownProgress.onRestart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mCountDownProgress.onPause();
+//        mCountDownProgress.onPause();
     }
 }

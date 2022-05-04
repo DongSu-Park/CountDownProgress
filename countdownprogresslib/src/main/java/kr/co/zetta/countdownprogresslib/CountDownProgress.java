@@ -13,7 +13,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -23,10 +22,10 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 public class CountDownProgress extends RelativeLayout {
-    private final int STATE_IDLE = 0;
-    private final int STATE_START = 1;
-    private final int STATE_PAUSE = 2;
-    private final int STATE_RESTART = 3;
+    public static final int STATE_IDLE = 0;
+    public static final int STATE_START = 1;
+    public static final int STATE_PAUSE = 2;
+    public static final int STATE_RESTART = 3;
 
     private int progressCustomDrawable;
 
@@ -228,6 +227,11 @@ public class CountDownProgress extends RelativeLayout {
     /** countdown finish listener event */
     public void setOnCountDownFinishEvent(CountDownFinishListener listener){
         this.mListener = listener;
+    }
+
+    /** get countdown current state */
+    public int getCurrentState() {
+        return mCntState;
     }
 
     /** countdown start (default time 10sec) */
@@ -445,5 +449,6 @@ public class CountDownProgress extends RelativeLayout {
         mCntState = STATE_IDLE;
 
         mCountDownTimer = null;
+        mListener = null;
     }
 }
