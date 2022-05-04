@@ -223,7 +223,17 @@ dependencies {
             
             - long runningTime - 카운트다운이 멈추고 지나간 시간을 반환합니다.
             - long remainTime - 카운트다운이 멈추고 남은 시간을 반환합니다.
-            
+    
+    - 카운트다운 상태 확인
+    	- getCurrentState()
+
+            카운트다운 프로그래스바의 상태를 확인합니다. State 상태값은 다음과 같습니다.  
+	    
+            - CountDownProgress.STATE_IDLE - 프로그래스바가 정지되어 있는 상태입니다. (init, onCancel())
+            - CountDownProgress.STATE_START - 프로그래스바가 진행되고 있는 상태입니다. (onStart())
+            - CountDownProgress.STATE_PAUSE - 프로그래스바가 일시정지된 상태입니다. (onPause())
+            - CountDownProgress.STATE_RESTART - 프로그래스바가 일시정지 이후 재시작된 상태 입니다. (onRestart())
+    
     - 카운트다운 실행 메서드
         - onStart()
             
