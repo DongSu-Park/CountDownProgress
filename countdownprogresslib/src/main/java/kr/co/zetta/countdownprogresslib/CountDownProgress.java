@@ -252,7 +252,9 @@ public class CountDownProgress extends RelativeLayout {
 
             @Override
             public void onFinish() {
-                mListener.onFinished();
+                if (mListener != null){
+                    mListener.onFinished();
+                }
 
                 mProgressBar.setProgress(0);
                 mRemainTime = 0;
@@ -287,7 +289,9 @@ public class CountDownProgress extends RelativeLayout {
 
             @Override
             public void onFinish() {
-                mListener.onFinished();
+                if (mListener != null){
+                    mListener.onFinished();
+                }
 
                 mProgressBar.setProgress(0);
                 mRemainTime = 0;
@@ -326,7 +330,9 @@ public class CountDownProgress extends RelativeLayout {
 
             @Override
             public void onFinish() {
-                mListener.onFinished();
+                if (mListener != null){
+                    mListener.onFinished();
+                }
 
                 mProgressBar.setProgress(0);
                 mRemainTime = 0;
@@ -347,7 +353,10 @@ public class CountDownProgress extends RelativeLayout {
             mCountDownTimer.cancel();
             mCountDownTimer = null;
 
-            mListener.onPaused(mRunningTime, mRemainTime);
+            if (mListener != null){
+                mListener.onPaused(mRunningTime, mRemainTime);
+            }
+
             mCntState = STATE_PAUSE;
         }
     }
@@ -366,7 +375,9 @@ public class CountDownProgress extends RelativeLayout {
 
                 @Override
                 public void onFinish() {
-                    mListener.onFinished();
+                    if (mListener != null){
+                        mListener.onFinished();
+                    }
 
                     mProgressBar.setProgress(0);
                     mRemainTime = 0;
@@ -398,7 +409,9 @@ public class CountDownProgress extends RelativeLayout {
 
                 @Override
                 public void onFinish() {
-                    mListener.onFinished();
+                    if (mListener != null){
+                        mListener.onFinished();
+                    }
 
                     mProgressBar.setProgress(0);
                     mRemainTime = 0;
