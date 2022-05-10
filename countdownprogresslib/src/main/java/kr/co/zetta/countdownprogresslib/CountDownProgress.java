@@ -445,8 +445,9 @@ public class CountDownProgress extends RelativeLayout {
     public void onSkip(){
         if (mCntState == STATE_START || mCntState == STATE_RESTART){
             mCountDownTimer.cancel();
-            mCountDownTimer.onFinish();
         }
+
+        mCountDownTimer.onFinish();
     }
 
     /** countdown timer release */
