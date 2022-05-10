@@ -351,7 +351,6 @@ public class CountDownProgress extends RelativeLayout {
     public void onPause(){
         if (mCntState == STATE_START || mCntState == STATE_RESTART){
             mCountDownTimer.cancel();
-            mCountDownTimer = null;
 
             if (mListener != null){
                 mListener.onPaused(mRunningTime, mRemainTime);
@@ -364,6 +363,7 @@ public class CountDownProgress extends RelativeLayout {
     /** countdown timer restart (before pause) */
     public void onRestart(){
         if (mCntState == STATE_PAUSE && mRemainTime != 0){
+            mCountDownTimer = null;
             mCountDownTimer = new CountDownTimer(mRemainTime, 10) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -398,6 +398,7 @@ public class CountDownProgress extends RelativeLayout {
         if (mCntState == STATE_PAUSE){
             mRemainTime = remainTime;
 
+            mCountDownTimer = null;
             mCountDownTimer = new CountDownTimer(mRemainTime, 10) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -443,11 +444,10 @@ public class CountDownProgress extends RelativeLayout {
 
     /** countdown timer finish */
     public void onSkip(){
-        if (mCntState == STATE_START || mCntState == STATE_RESTART){
+        if (mCntState != STATE_IDLE){
             mCountDownTimer.cancel();
+            mCountDownTimer.onFinish();
         }
-
-        mCountDownTimer.onFinish();
     }
 
     /** countdown timer release */
