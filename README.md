@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
 	....
-	implementation 'com.github.DongSu-Park:CountDownProgress:0.0.6-alpha'
+	implementation 'com.github.DongSu-Park:CountDownProgress:0.0.7-alpha'
 }
 ```
 
