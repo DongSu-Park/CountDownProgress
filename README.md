@@ -52,7 +52,7 @@ dependencies {
     
     - app:progressDrawableCustom
         
-        라이브러리 내의 default drawable을 사용하지 않고 커스텀된 drawable을 사용할 경우  
+        라이브러리 내의 default drawable을 사용하지 않고 커스텀된 별도의 drawable을 사용할 경우  
         해당 레퍼런스 타입을 선언하고 지정해줘야 합니다.  
         
         ```xml
@@ -279,7 +279,7 @@ dependencies {
         - onSkip()
             
             프로그래스바 진행 중 남은 시간을 무시하고 카운트다운을 종료시킵니다. 이후 리스너에서 onFinished()의 이벤트를 받습니다.  
-            프로그래스바가 이전에 시작 또는 재시작을 호출한 경우에 작동합니다. (onstart, onRestart)
+            프로그래스바가 이전에 시작, 재시작, 일시정지를 호출한 경우에 작동합니다. (onstart, onRestart, onPause)
             
     - 카운트다운 release
         - onRelease()
