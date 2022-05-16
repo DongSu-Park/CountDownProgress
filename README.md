@@ -64,15 +64,15 @@ dependencies {
                 .../>
         ```
         
-    - app:progressColorTintBg (only default drawable)
+    - app:progressColorTintBg (Default drawable only)
         
         프로그래스바의 배경 색상을 설정합니다. (커스텀 drawable을 사용하지 않을 경우에만 작동됩니다.)
         
-    - app:progressColorTint (only default drawable)
+    - app:progressColorTint (Default drawable only)
         
         프로그래스바의 진행 색상을 설정합니다. (커스텀 drawable을 사용하지 않을 경우에만 작동됩니다.)
         
-    - app:progressRadius (only default drawable)
+    - app:progressRadius (Default drawable only)
         
         프로그래스바의 radius 값을 설정합니다. (커스텀 drawable을 사용하지 않을 경우에만 작동됩니다.)
         
@@ -160,15 +160,15 @@ dependencies {
         }
         ```
         
-    - setProgressColorTintBg (String colorValue)
+    - setProgressColorTintBg (String colorValue) (Default drawable only)
         
         프로그래스바의 백그라운드 색상을 코드 내에서 설정합니다. (커스텀 drawable을 사용하지 않을 경우에만 작동됩니다.)
         
-    - setProgressColorTint (String colorValue)
+    - setProgressColorTint (String colorValue) (Default drawable only)
         
         프로그래스바의 진행 색상을 코드 내에서 설정합니다. (커스텀 drawable을 사용하지 않을 경우에만 작동됩니다.)
         
-    - setProgressRadius (float radius)
+    - setProgressRadius (float radius) (Default drawable only)
         
         프로그래스바의 radius 값을 코드 내에서 설정합니다. (커스텀 drawable을 사용하지 않을 경우에만 작동됩니다.)
         
